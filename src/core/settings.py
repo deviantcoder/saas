@@ -1,15 +1,15 @@
 import os
 from pathlib import Path
+from decouple import config
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-dks%xxulm3(_nv*^j_9b)**ej#rra1dpy*o(+qh-4o24))yvjb'
+SECRET_KEY = config('DJANGO_SECRET_KEY')
 
-DEBUG = str(os.environ.get('DJANGO_DEBUG').lower()) == 'true'
-
-print('DEBUG: ', DEBUG, type(DEBUG))
+# DEBUG = str(os.environ.get('DJANGO_DEBUG').lower()) == 'true'
+DEBUG = config('DJANGO_DEBUG', cast=bool)
 
 ALLOWED_HOSTS = [
     '.railway.app'
@@ -79,6 +79,18 @@ DATABASES = {
     }
 }
 
+CONN_MAX_AGE = config("CONN_MAX_AGE", cast=int, default=300)
+DATABASE_URL = config("DATABASE_URL", cast=str)
+
+if DATABASE_URL is not None:
+    import dj_database_url
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=CONN_MAX_AGE,
+            conn_health_checks=True,
+        )
+    }
 
 # Password validation
 
