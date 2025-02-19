@@ -8,14 +8,14 @@
             SaaS
         {% endblock head_title %}
     </title>
+    {% include 'base/css.html' %}
 </head>
 <body>
-
-    <h1>{{ page_title }}</h1>
+    {% include 'nav/navbar.html' %}
 
     {% block content %}
-        replace me
     {% endblock content %}
     
+    {% include 'base/js.html' %}
 </body>
 </html>
