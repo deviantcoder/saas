@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 
@@ -6,7 +7,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-dks%xxulm3(_nv*^j_9b)**ej#rra1dpy*o(+qh-4o24))yvjb'
 
-DEBUG = True
+DEBUG = str(os.environ.get('DEBUG').lower()) == 'true'
+
+print('DEBUG: ', DEBUG, type(DEBUG))
 
 ALLOWED_HOSTS = [
     '.railway.app'
