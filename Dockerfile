@@ -31,7 +31,12 @@ COPY ./src /code
 
 RUN pip install -r /tmp/requirements.txt
 
-# RUN python manage.py collectstatic --noinput
+ARG DJANGO_SECRET_KEY
+ENV DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
+
+# static files
+RUN python manage.py vendor_pull
+RUN python manage.py collectstatic --noinput
 
 # django default project name
 ARG PROJ_NAME="core"
